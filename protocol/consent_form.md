@@ -1,4 +1,4 @@
-# Consent Form
+# Participant Consent Form
 
 ## Study Title:
 Using Infrared Thermal Imaging (FLIR) for Assessing Burn Injuries
