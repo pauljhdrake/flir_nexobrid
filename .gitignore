@@ -1,0 +1,27 @@
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# R
+.Rprofile
+renv/library/
+.Renviron
+
+# Build artifacts
+*.docx
+*.pdf
+*.html
+*.zip
+
+# Data (safety)
+data/raw/*
+!data/raw/.gitkeep
+data/derived/*
+!data/derived/.gitkeep
+
