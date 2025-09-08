@@ -1,0 +1,24 @@
+to: pdf
+from: markdown
+standalone: true
+pdf-engine: xelatex
+number-sections: true
+toc: true
+toc-depth: 2
+
+variables:
+  mainfont: Noto Sans
+  sansfont: Noto Sans
+  monofont: DejaVu Sans Mono
+  mathfont: Latin Modern Math
+  fontsize: 11pt
+  geometry:
+    - margin=1in
+  colorlinks: true
+  linkcolor: MidnightBlue
+  urlcolor: MidnightBlue
+  mainfontoptions:
+    - FallbackFamilies={DejaVu Sans,Noto Sans Symbols2, Noto Sans Symbols}
+
+include-in-header:
+  - tools/header.tex

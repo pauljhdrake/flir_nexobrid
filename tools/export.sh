@@ -1,25 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+# Ensure user-level bins (TinyTeX symlinks) are visible for non-interactive shells
+export PATH="$HOME/.local/bin:$HOME/.TinyTeX/bin/$(uname -m)-linux:$HOME/.TinyTeX/bin:$PATH"
+
 outdir="build"
 mkdir -p "$outdir"
 
-# Always build DOCX
-pandoc protocol/protocol.md -o "$outdir/protocol.docx"
-
-# Try to build PDF only if a PDF engine exists
-have() { command -v "$1" >/dev/null 2>&1; }
-
-if have xelatex; then
-	pandoc protocol/protocol.md -o "$outdir/protocol.pdf" --pdf-engine=xelatex
-
-elif have wkhtmltopdf; then
-	pandoc protocol/protocol.md -o "$outdir/protocol.pdf" --pdf-engine=wkhtmltopdf
-
-else
-	echo "Skipping PDF build (no pdf engine found: need xelatex or wkhtmltopdf)."
-
+# Always build DOCX (uses reference.docx if present)
+docx_args=()
+if [[ -f tools/reference.docx ]]; then
+  docx_args+=( --reference-doc=tools/reference.docx )
 fi
+pandoc protocol/protocol.md -o "$outdir/protocol.docx" "${docx_args[@]}"
 
-# Export protocol to DOCX & PDF
-#pandoc protocol/protocol.md -o "/protocol.docx"
-#pandoc protocol/protocol.md -o "/protocol.pdf"
+# Build PDF with XeLaTeX if available, using our defaults; else skip gracefully
+if command -v xelatex >/dev/null 2>&1; then
+  pandoc --defaults=tools/pandoc.yaml protocol/protocol.md -o "$outdir/protocol.pdf"
+else
+  echo "Skipping PDF build (no xelatex found). DOCX generated."
+fi
